@@ -1519,8 +1519,13 @@ namespace ShareX.ScreenCaptureLib
             }
         }
 
-        public Bitmap GetResultImage()
+        public Bitmap GetResultImage(string fullShotFname = null)
         {
+            //"Canvas" contains a bitmap of all screens!!!!!!!! the job is already done for me!!!!!!!
+            //i'll just lazily use the builtin Save method, fuck you
+            //Console.WriteLine(fullShotPath);
+            if(fullShotFname != null)
+                Canvas.Save(fullShotFname);
             if (IsEditorMode)
             {
                 return ShapeManager.RenderOutputImage(Canvas, CanvasRectangle.Location);

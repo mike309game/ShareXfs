@@ -101,7 +101,9 @@ namespace ShareX
 
                 form.ShowDialog();
 
-                Bitmap result = form.GetResultImage();
+                string fullShotPath = System.IO.Path.Combine(TaskHelpers.GetScreenshotsFolder() + "_FULLSCREEN", TaskHelpers.GetFileName(TaskSettings.GetDefaultTaskSettings())  + ".png");
+                FileHelpers.CreateDirectoryFromFilePath(fullShotPath);
+                Bitmap result = form.GetResultImage(fullShotPath);
 
                 if (result != null)
                 {
