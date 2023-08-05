@@ -16,25 +16,24 @@
       "sharex.helperslib": {
         "type": "Project",
         "dependencies": {
-          "Newtonsoft.Json": "[13.0.3, )"
+          "Newtonsoft.Json": "13.0.3"
         }
       },
       "sharex.imageeffectslib": {
         "type": "Project",
         "dependencies": {
-          "Newtonsoft.Json": "[13.0.3, )",
-          "ShareX.HelpersLib": "[1.0.0, )"
+          "Newtonsoft.Json": "13.0.3",
+          "ShareX.HelpersLib": "1.0.0"
         }
       },
       "sharex.medialib": {
         "type": "Project",
         "dependencies": {
-          "ShareX.HelpersLib": "[1.0.0, )"
+          "ShareX.HelpersLib": "1.0.0"
         }
       }
     },
     ".NETFramework,Version=v4.8/win": {},
-    ".NETFramework,Version=v4.8/win-arm64": {},
     ".NETFramework,Version=v4.8/win-x64": {},
     ".NETFramework,Version=v4.8/win-x86": {}
   }

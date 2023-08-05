@@ -69,58 +69,57 @@
       "sharex.helperslib": {
         "type": "Project",
         "dependencies": {
-          "Newtonsoft.Json": "[13.0.3, )"
+          "Newtonsoft.Json": "13.0.3"
         }
       },
       "sharex.historylib": {
         "type": "Project",
         "dependencies": {
-          "ImageListView": "[13.8.2, )",
-          "ShareX.HelpersLib": "[1.0.0, )"
+          "ImageListView": "13.8.2",
+          "ShareX.HelpersLib": "1.0.0"
         }
       },
       "sharex.imageeffectslib": {
         "type": "Project",
         "dependencies": {
-          "Newtonsoft.Json": "[13.0.3, )",
-          "ShareX.HelpersLib": "[1.0.0, )"
+          "Newtonsoft.Json": "13.0.3",
+          "ShareX.HelpersLib": "1.0.0"
         }
       },
       "sharex.indexerlib": {
         "type": "Project",
         "dependencies": {
-          "Newtonsoft.Json": "[13.0.3, )",
-          "ShareX.HelpersLib": "[1.0.0, )"
+          "Newtonsoft.Json": "13.0.3",
+          "ShareX.HelpersLib": "1.0.0"
         }
       },
       "sharex.medialib": {
         "type": "Project",
         "dependencies": {
-          "ShareX.HelpersLib": "[1.0.0, )"
+          "ShareX.HelpersLib": "1.0.0"
         }
       },
       "sharex.screencapturelib": {
         "type": "Project",
         "dependencies": {
-          "ImageListView": "[13.8.2, )",
-          "ShareX.HelpersLib": "[1.0.0, )",
-          "ShareX.ImageEffectsLib": "[1.0.0, )",
-          "ShareX.MediaLib": "[1.0.0, )"
+          "ImageListView": "13.8.2",
+          "ShareX.HelpersLib": "1.0.0",
+          "ShareX.ImageEffectsLib": "1.0.0",
+          "ShareX.MediaLib": "1.0.0"
         }
       },
       "sharex.uploaderslib": {
         "type": "Project",
         "dependencies": {
-          "FluentFTP": "[46.0.2, )",
-          "MegaApiClient": "[1.10.3, )",
-          "Newtonsoft.Json": "[13.0.3, )",
-          "SSH.NET": "[2020.0.2, )",
-          "ShareX.HelpersLib": "[1.0.0, )"
+          "FluentFTP": "46.0.2",
+          "MegaApiClient": "1.10.3",
+          "Newtonsoft.Json": "13.0.3",
+          "SSH.NET": "2020.0.2",
+          "ShareX.HelpersLib": "1.0.0"
         }
       }
     },
     ".NETFramework,Version=v4.8/win": {},
-    ".NETFramework,Version=v4.8/win-arm64": {},
     ".NETFramework,Version=v4.8/win-x64": {},
     ".NETFramework,Version=v4.8/win-x86": {}
   }
