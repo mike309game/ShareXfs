@@ -397,6 +397,9 @@ namespace ShareX
                 case EImageFormat.TIFF:
                     img.Save(ms, ImageFormat.Tiff);
                     break;
+                case EImageFormat.WEBP:
+                    ImageHelpers.SaveWebp(img, ms);
+                    break;
             }
 
             return ms;

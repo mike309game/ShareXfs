@@ -241,6 +241,7 @@ namespace ShareX
             cbImageFileExist.Items.Clear();
             cbImageFileExist.Items.AddRange(Helpers.GetLocalizedEnumDescriptions<FileExistAction>());
             cbImageFileExist.SelectedIndex = (int)TaskSettings.ImageSettings.FileExistAction;
+            cbDoFullscreenShots.Checked = TaskSettings.ImageSettings.DoFullscreenShots;
 
             #endregion General
 
@@ -1777,6 +1778,11 @@ namespace ShareX
         private void txtToolsScreenColorPickerInfoText_TextChanged(object sender, EventArgs e)
         {
             TaskSettings.ToolsSettings.ScreenColorPickerInfoText = txtToolsScreenColorPickerInfoText.Text;
+        }
+
+        private void cbDoFullscreenShots_CheckedChanged(object sender, EventArgs e)
+        {
+            TaskSettings.ImageSettings.DoFullscreenShots = cbDoFullscreenShots.Checked;
         }
 
         #endregion Tools

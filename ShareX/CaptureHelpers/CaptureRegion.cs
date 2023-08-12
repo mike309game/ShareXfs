@@ -101,8 +101,13 @@ namespace ShareX
 
                 form.ShowDialog();
 
-                string fullShotPath = System.IO.Path.Combine(TaskHelpers.GetScreenshotsFolder() + "_FULLSCREEN", TaskHelpers.GetFileName(TaskSettings.GetDefaultTaskSettings())  + ".png");
-                FileHelpers.CreateDirectoryFromFilePath(fullShotPath);
+                string fullShotPath = null;
+                if(taskSettings.ImageSettings.DoFullscreenShots)
+                {
+                    fullShotPath = System.IO.Path.Combine(TaskHelpers.GetScreenshotsFolder() + "_FULLSCREEN", TaskHelpers.GetFileName(TaskSettings.GetDefaultTaskSettings()) + ".webp");
+                    FileHelpers.CreateDirectoryFromFilePath(fullShotPath);
+                }
+                
                 Bitmap result = form.GetResultImage(fullShotPath);
 
                 if (result != null)

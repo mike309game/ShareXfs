@@ -2180,7 +2180,7 @@ namespace ShareX.HelpersLib
             return null;
         }
 
-        public static Bitmap LoadImage(string filePath)
+        public unsafe static Bitmap LoadImage(string filePath)
         {
             if (!string.IsNullOrEmpty(filePath))
             {
@@ -2190,6 +2190,34 @@ namespace ShareX.HelpersLib
 
                     if (!string.IsNullOrEmpty(filePath) && FileHelpers.IsImageFile(filePath) && File.Exists(filePath))
                     {
+                        if(FileHelpers.GetFileNameExtension(filePath) == "webp")
+                        {
+                            var bytes = File.ReadAllBytes(filePath);
+                            fixed(byte* ptr = bytes)
+                            {
+                                var intptr = (IntPtr)ptr;
+                                int width = 0, height = 0;
+                                if(WebP.ValidateAndGetRes(intptr, bytes.Length, (IntPtr)(&width), (IntPtr)(&height)) == 1) {
+                                    var dec = WebP.Decode(intptr, bytes.Length, (IntPtr)(&width), (IntPtr)(&height));
+                                    Bitmap b = new Bitmap(width, height);
+                                    var data = b.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+                                    for (var i = 0; i < (width * height); i++)
+                                    {
+                                        int off = (i * 4);
+                                        *(byte*)(data.Scan0 + (off + 2)) = *(byte*)(dec + off + 0);
+                                        *(byte*)(data.Scan0 + (off + 1)) = *(byte*)(dec + off + 1);
+                                        *(byte*)(data.Scan0 + (off + 0)) = *(byte*)(dec + off + 2);
+                                        *(byte*)(data.Scan0 + (off + 3)) = *(byte*)(dec + off + 3);
+                                    }
+                                    WebP.FreeWebp(dec);
+                                    b.UnlockBits(data);
+                                    return b;
+                                } else
+                                {
+                                    return null; //broken file, don't spam debug logs with the Image.FromStream erroring out
+                                }
+                            }
+                        }
                         // http://stackoverflow.com/questions/788335/why-does-image-fromfile-keep-a-file-handle-open-sometimes
                         Bitmap bmp = (Bitmap)Image.FromStream(new MemoryStream(File.ReadAllBytes(filePath)));
 
@@ -2790,6 +2818,63 @@ namespace ShareX.HelpersLib
 
             return bmp;
         }
+
+        public unsafe static void SaveWebp(Image img, Stream stream)
+        {
+            var b = (Bitmap)img;
+            var data = b.LockBits(new Rectangle(0, 0, img.Width, img.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+            IntPtr outptr = new IntPtr();
+            int size = (int)WebP.EncodeBgra(data.Scan0, img.Width, img.Height, data.Stride, (IntPtr)(&outptr));
+            var managedOut = new byte[size];
+            Marshal.Copy(outptr, managedOut, 0, (int)size);
+            WebP.FreeWebp(outptr);
+            stream.Write(managedOut, 0, (int)size);
+            b.UnlockBits(data);
+        }
+
+        /*public static void SavePpm(Image img, MemoryStream stream)
+        {
+            var bitmap = (Bitmap)img;
+            //ShareX normally doesn't support hdr anyway
+            var data = bitmap.LockBits(new Rectangle(0, 0, img.Width, img.Height),
+                ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+
+            var outbuff = Marshal.AllocCoTaskMem(img.Width * img.Height * 4);
+
+            WebP.Encode.Encode.EncodeRgb(data.Scan0, img.Width, img.Height, data.Stride, outbuff);
+
+            Marshal.FreeCoTaskMem(outbuff);
+
+            //P6
+            stream.WriteByte(0x50); stream.WriteByte(0x36);
+            stream.WriteByte(0x0A);
+
+            var widthBytes = Encoding.ASCII.GetBytes(img.Width.ToString());
+            var heightBytes = Encoding.ASCII.GetBytes(img.Height.ToString());
+            stream.Write(widthBytes, 0, widthBytes.Length);
+            stream.WriteByte(0x20);
+            stream.Write(heightBytes, 0, heightBytes.Length);
+            stream.WriteByte(0x0A);
+
+            stream.WriteByte(0x32); stream.WriteByte(0x35); stream.WriteByte(0x35); stream.WriteByte(0x0A); //255 newl
+
+            unsafe
+            {
+                for (var yy = 0; yy < img.Height; yy++)
+                {
+                    for (var xx = 0; xx < img.Width; xx++)
+                    {
+                        var off = (xx + (yy * img.Width)) * 4;
+                        //probably slow as fuuuuck????
+                        stream.WriteByte(*(byte*)(data.Scan0 + off + 2));
+                        stream.WriteByte(*(byte*)(data.Scan0 + off + 1));
+                        stream.WriteByte(*(byte*)(data.Scan0 + off + 0));
+                    }
+                }
+            }
+            bitmap.UnlockBits(data);
+            //bitmap.Dispose();
+        }*/
 
         public static MemoryStream SavePNG(Image img, PNGBitDepth bitDepth)
         {
