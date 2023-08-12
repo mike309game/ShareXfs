@@ -1528,12 +1528,16 @@ namespace ShareX.ScreenCaptureLib
             {
                 //honestly a bit surprised this doesn't catastrophically break the fabric of reality
                 var clone = Canvas.Clone() as Bitmap;
+                var time = DateTime.Now;
                 new System.Threading.Thread(new System.Threading.ThreadStart(() =>
                 {
                     using (var stream = new System.IO.FileStream(fullShotFname, System.IO.FileMode.Create))
                     {
                         ImageHelpers.SaveWebp(clone, stream);
                     }
+                    System.IO.File.SetCreationTime(fullShotFname, time);
+                    System.IO.File.SetLastWriteTime(fullShotFname, time);
+                    System.IO.File.SetLastAccessTime(fullShotFname, time);
                     clone.Dispose();
                 })).Start();
             }
