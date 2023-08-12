@@ -104,6 +104,7 @@
             this.tcImage = new System.Windows.Forms.TabControl();
             this.tpQuality = new System.Windows.Forms.TabPage();
             this.pImage = new System.Windows.Forms.Panel();
+            this.cbDoFullscreenShots = new System.Windows.Forms.CheckBox();
             this.cbImageAutoJPEGQuality = new System.Windows.Forms.CheckBox();
             this.cbImagePNGBitDepth = new System.Windows.Forms.ComboBox();
             this.lblImagePNGBitDepth = new System.Windows.Forms.Label();
@@ -961,6 +962,7 @@
             // 
             // pImage
             // 
+            this.pImage.Controls.Add(this.cbDoFullscreenShots);
             this.pImage.Controls.Add(this.cbImageAutoJPEGQuality);
             this.pImage.Controls.Add(this.cbImagePNGBitDepth);
             this.pImage.Controls.Add(this.lblImagePNGBitDepth);
@@ -978,6 +980,13 @@
             this.pImage.Controls.Add(this.cbImageGIFQuality);
             resources.ApplyResources(this.pImage, "pImage");
             this.pImage.Name = "pImage";
+            // 
+            // cbDoFullscreenShots
+            // 
+            resources.ApplyResources(this.cbDoFullscreenShots, "cbDoFullscreenShots");
+            this.cbDoFullscreenShots.Name = "cbDoFullscreenShots";
+            this.cbDoFullscreenShots.UseVisualStyleBackColor = true;
+            this.cbDoFullscreenShots.CheckedChanged += new System.EventHandler(this.cbDoFullscreenShots_CheckedChanged);
             // 
             // cbImageAutoJPEGQuality
             // 
@@ -3051,5 +3060,6 @@
         private System.Windows.Forms.Button btnCustomActionCompletedSoundPath;
         private System.Windows.Forms.TextBox txtCustomActionCompletedSoundPath;
         private System.Windows.Forms.CheckBox cbUseCustomActionCompletedSound;
+        private System.Windows.Forms.CheckBox cbDoFullscreenShots;
     }
 }

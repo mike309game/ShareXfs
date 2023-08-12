@@ -395,29 +395,32 @@ namespace ShareX
                                 return ImageHelpers.PNGStripColorSpaceInformation(ms);
                             }
                         }
-                        break;
-                    case EImageFormat.JPEG:
-                        using (Bitmap newImage = ImageHelpers.FillBackground(img, Color.White))
-                        {
-                            ImageHelpers.SaveJPEG(newImage, ms, jpegQuality);
-                        }
-                        break;
-                    case EImageFormat.GIF:
-                        ImageHelpers.SaveGIF(img, ms, gifQuality);
-                        break;
-                    case EImageFormat.BMP:
-                        img.Save(ms, ImageFormat.Bmp);
-                        break;
-                    case EImageFormat.TIFF:
-                        img.Save(ms, ImageFormat.Tiff);
-                        break;
-                }
+                    break;
+                case EImageFormat.JPEG:
+                    using (Bitmap newImage = ImageHelpers.FillBackground(img, Color.White))
+                    {
+                        ImageHelpers.SaveJPEG(newImage, ms, jpegQuality);
+                    }
+                    break;
+                case EImageFormat.GIF:
+                    ImageHelpers.SaveGIF(img, ms, gifQuality);
+                    break;
+                case EImageFormat.BMP:
+                    img.Save(ms, ImageFormat.Bmp);
+                    break;
+                case EImageFormat.TIFF:
+                    img.Save(ms, ImageFormat.Tiff);
+                    break;
+                case EImageFormat.WEBP:
+                    ImageHelpers.SaveWebp(img, ms);
+                    break;
+				}
             }
-            catch (Exception e)
+			catch (Exception e)
             {
                 DebugHelper.WriteException(e);
                 e.ShowError();
-            }
+			}
 
             return ms;
         }

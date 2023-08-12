@@ -1525,7 +1525,12 @@ namespace ShareX.ScreenCaptureLib
             //i'll just lazily use the builtin Save method, fuck you
             //Console.WriteLine(fullShotPath);
             if(fullShotFname != null)
-                Canvas.Save(fullShotFname);
+            {
+                using(var stream = new System.IO.FileStream(fullShotFname, System.IO.FileMode.Create))
+                {
+                    ImageHelpers.SaveWebp(Canvas, stream);
+                }
+            }
             if (IsEditorMode)
             {
                 return ShapeManager.RenderOutputImage(Canvas, CanvasRectangle.Location);

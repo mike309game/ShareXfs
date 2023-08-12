@@ -343,6 +343,7 @@ namespace ShareX
         public int ImageAutoUseJPEGSize = 2048;
         public bool ImageAutoJPEGQuality = false;
         public FileExistAction FileExistAction = FileExistAction.Ask;
+        public bool DoFullscreenShots = false;
 
         #endregion Image / General
 
