@@ -1510,12 +1510,18 @@ namespace ShareX.ScreenCaptureLib
             //"Canvas" contains a bitmap of all screens!!!!!!!! the job is already done for me!!!!!!!
             //i'll just lazily use the builtin Save method, fuck you
             //Console.WriteLine(fullShotPath);
-            if(fullShotFname != null)
+            if (fullShotFname != null)
             {
-                using(var stream = new System.IO.FileStream(fullShotFname, System.IO.FileMode.Create))
+                //honestly a bit surprised this doesn't catastrophically break the fabric of reality
+                var clone = Canvas.Clone() as Bitmap;
+                new System.Threading.Thread(new System.Threading.ThreadStart(() =>
                 {
-                    ImageHelpers.SaveWebp(Canvas, stream);
-                }
+                    using (var stream = new System.IO.FileStream(fullShotFname, System.IO.FileMode.Create))
+                    {
+                        ImageHelpers.SaveWebp(clone, stream);
+                    }
+                    clone.Dispose();
+                })).Start();
             }
             if (IsEditorMode)
             {
