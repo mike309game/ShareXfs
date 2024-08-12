@@ -2909,6 +2909,11 @@ namespace ShareX.HelpersLib
             var data = b.LockBits(new Rectangle(0, 0, img.Width, img.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
             IntPtr outptr = new IntPtr();
             int size = (int)WebP.EncodeBgra(data.Scan0, img.Width, img.Height, data.Stride, (IntPtr)(&outptr));
+            //scrolling capture might make an image too big for the webp format
+            if(outptr == IntPtr.Zero)
+            {
+                throw new FormatException("Failed to save as webp; image dimensions might be too big; image might still be in clipboard however");
+            }
             var managedOut = new byte[size];
             Marshal.Copy(outptr, managedOut, 0, (int)size);
             WebP.FreeWebp(outptr);

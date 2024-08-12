@@ -1522,14 +1522,13 @@ namespace ShareX.ScreenCaptureLib
         public Bitmap GetResultImage(string fullShotFname = null)
         {
             //"Canvas" contains a bitmap of all screens!!!!!!!! the job is already done for me!!!!!!!
-            //i'll just lazily use the builtin Save method, fuck you
             //Console.WriteLine(fullShotPath);
             if (fullShotFname != null)
             {
                 //honestly a bit surprised this doesn't catastrophically break the fabric of reality
                 var clone = Canvas.Clone() as Bitmap;
                 var time = DateTime.Now;
-                new System.Threading.Thread(new System.Threading.ThreadStart(() =>
+                System.Threading.Tasks.Task.Run(() =>
                 {
                     using (var stream = new System.IO.FileStream(fullShotFname, System.IO.FileMode.Create))
                     {
@@ -1539,7 +1538,7 @@ namespace ShareX.ScreenCaptureLib
                     System.IO.File.SetLastWriteTime(fullShotFname, time);
                     System.IO.File.SetLastAccessTime(fullShotFname, time);
                     clone.Dispose();
-                })).Start();
+                });
             }
             if (IsEditorMode)
             {
